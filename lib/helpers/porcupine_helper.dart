@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:porcupine_flutter/porcupine_manager.dart';
 
 class PorcupineHelper {
@@ -12,7 +13,7 @@ class PorcupineHelper {
   void _initPorcupine() async {
     try {
       _porcupineManager = await PorcupineManager.fromKeywordPaths(
-        "j+v69u/ilX2dS7Bu/dkfGQtO4T34NjqvvApRDT7Ubu4dw8XFOFZaVg==",
+        dotenv.env['PORCUPINE_KEY']!,
         keywordPaths,
         wakeWordCallback,
       );
