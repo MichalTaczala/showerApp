@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shower_app/constants/route_constants.dart';
-import 'package:shower_app/cubit/shower_measure_cubit.dart';
 import 'package:shower_app/enums/state.dart';
+import 'package:shower_app/pages/start_page/shower_measurement_cubit/shower_measure_cubit.dart';
 import 'package:shower_app/widgets/outlined_text.dart';
 
 class StartPage extends StatefulWidget {
@@ -20,7 +20,12 @@ class _StartPageState extends State<StartPage> {
   double heightOfUpperPart = 130;
   double opacityOfTimer = 0;
 
-  void _startTimer() {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void startTimer() {
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
@@ -31,7 +36,7 @@ class _StartPageState extends State<StartPage> {
     opacityOfTimer = 1;
   }
 
-  void _stopTimer() {
+  void stopTimer() {
     _timer?.cancel();
     _timer = null;
     context.read<ShowerMeasureCubit>().resetTimer();
@@ -39,18 +44,18 @@ class _StartPageState extends State<StartPage> {
     opacityOfTimer = 0;
   }
 
-  String _formatSecondsIntoClockFormat(int seconds) {
+  String formatSecondsIntoClockFormat(int seconds) {
     return "${(seconds / 60).floor()}:${(seconds % 60).toString().padLeft(2, '0')}";
   }
 
-  void _showShouldSaveResultsDialog(BuildContext context, int seconds) {
+  void showShouldSaveResultsDialog(BuildContext context, int seconds) {
     showDialog(
       context: context,
       builder: (context1) {
         return AlertDialog(
           title: const Text("Save Results"),
           content: Text(
-            "Do you want to save your shower?\nIt took you ${_formatSecondsIntoClockFormat(seconds)}",
+            "Do you want to save your shower?\nIt took you ${formatSecondsIntoClockFormat(seconds)}",
           ),
           actions: [
             TextButton(
@@ -121,13 +126,14 @@ class _StartPageState extends State<StartPage> {
                             percent: state.numberOfSeconds % 30 / 30,
                             lineWidth: 10,
                             progressColor: Colors.white,
-                            center: Text(
-                              _formatSecondsIntoClockFormat(
+                            center: OutlinedText(
+                              data: formatSecondsIntoClockFormat(
                                   state.numberOfSeconds),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 60,
                               ),
+                              shadowSize: 0.5,
                             ),
                           ),
                         ),
@@ -137,7 +143,7 @@ class _StartPageState extends State<StartPage> {
                       ElevatedButton(
                         onPressed: () => {
                           context.read<ShowerMeasureCubit>().startShower(),
-                          _startTimer(),
+                          startTimer(),
                         },
                         child: const Padding(
                           padding: EdgeInsets.all(18.0),
@@ -154,8 +160,8 @@ class _StartPageState extends State<StartPage> {
                       ElevatedButton(
                         onPressed: () => {
                           context.read<ShowerMeasureCubit>().endShower(),
-                          _stopTimer(),
-                          _showShouldSaveResultsDialog(
+                          stopTimer(),
+                          showShouldSaveResultsDialog(
                             context,
                             state.numberOfSeconds,
                           ),

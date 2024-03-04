@@ -14,11 +14,16 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+ShowerData _$ShowerDataFromJson(Map<String, dynamic> json) {
+  return _ShowerData.fromJson(json);
+}
+
 /// @nodoc
 mixin _$ShowerData {
-  Duration get time => throw _privateConstructorUsedError;
+  int get seconds => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ShowerDataCopyWith<ShowerData> get copyWith =>
       throw _privateConstructorUsedError;
@@ -30,7 +35,7 @@ abstract class $ShowerDataCopyWith<$Res> {
           ShowerData value, $Res Function(ShowerData) then) =
       _$ShowerDataCopyWithImpl<$Res, ShowerData>;
   @useResult
-  $Res call({Duration time, DateTime date});
+  $Res call({int seconds, DateTime date});
 }
 
 /// @nodoc
@@ -46,14 +51,14 @@ class _$ShowerDataCopyWithImpl<$Res, $Val extends ShowerData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? time = null,
+    Object? seconds = null,
     Object? date = null,
   }) {
     return _then(_value.copyWith(
-      time: null == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as Duration,
+      seconds: null == seconds
+          ? _value.seconds
+          : seconds // ignore: cast_nullable_to_non_nullable
+              as int,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -70,7 +75,7 @@ abstract class _$$ShowerDataImplCopyWith<$Res>
       __$$ShowerDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Duration time, DateTime date});
+  $Res call({int seconds, DateTime date});
 }
 
 /// @nodoc
@@ -84,14 +89,14 @@ class __$$ShowerDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? time = null,
+    Object? seconds = null,
     Object? date = null,
   }) {
     return _then(_$ShowerDataImpl(
-      time: null == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as Duration,
+      seconds: null == seconds
+          ? _value.seconds
+          : seconds // ignore: cast_nullable_to_non_nullable
+              as int,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -101,18 +106,21 @@ class __$$ShowerDataImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$ShowerDataImpl implements _ShowerData {
-  const _$ShowerDataImpl({required this.time, required this.date});
+  const _$ShowerDataImpl({required this.seconds, required this.date});
+
+  factory _$ShowerDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ShowerDataImplFromJson(json);
 
   @override
-  final Duration time;
+  final int seconds;
   @override
   final DateTime date;
 
   @override
   String toString() {
-    return 'ShowerData(time: $time, date: $date)';
+    return 'ShowerData(seconds: $seconds, date: $date)';
   }
 
   @override
@@ -120,27 +128,38 @@ class _$ShowerDataImpl implements _ShowerData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ShowerDataImpl &&
-            (identical(other.time, time) || other.time == time) &&
+            (identical(other.seconds, seconds) || other.seconds == seconds) &&
             (identical(other.date, date) || other.date == date));
   }
 
+  @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, time, date);
+  int get hashCode => Object.hash(runtimeType, seconds, date);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ShowerDataImplCopyWith<_$ShowerDataImpl> get copyWith =>
       __$$ShowerDataImplCopyWithImpl<_$ShowerDataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ShowerDataImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _ShowerData implements ShowerData {
   const factory _ShowerData(
-      {required final Duration time,
+      {required final int seconds,
       required final DateTime date}) = _$ShowerDataImpl;
 
+  factory _ShowerData.fromJson(Map<String, dynamic> json) =
+      _$ShowerDataImpl.fromJson;
+
   @override
-  Duration get time;
+  int get seconds;
   @override
   DateTime get date;
   @override

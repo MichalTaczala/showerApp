@@ -1,11 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shower_app/enums/state.dart';
+import 'package:shower_app/helpers/sql_helper.dart';
+import 'package:shower_app/models/shower_data.dart';
 
 part 'shower_measure_cubit.freezed.dart';
 part 'shower_measure_state.dart';
 
 class ShowerMeasureCubit extends Cubit<ShowerMeasureState> {
+  final SqlHelper sqlHelper = SqlHelper.instance;
   ShowerMeasureCubit()
       : super(
           const ShowerMeasureState(),
@@ -43,7 +46,18 @@ class ShowerMeasureCubit extends Cubit<ShowerMeasureState> {
     );
   }
 
-  void saveResults(int seconds) {
-    //TODO: Implement saving results
+  void saveResults(int seconds) async {
+    await sqlHelper.insertShowerData(
+      ShowerData(
+        seconds: seconds,
+        date: DateTime.now(),
+      ),
+    );
+    emit(
+      state.copyWith(
+        numberOfSeconds: 0,
+        showerState: StateEnum.basic,
+      ),
+    );
   }
 }
